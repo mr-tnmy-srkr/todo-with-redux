@@ -1,14 +1,16 @@
 import { useForm } from "react-hook-form";
-import Modal from "../../ui/Modal";
-import { useDispatch } from "react-redux";
-import { addTask } from "../../redux/features/tasks/tasksSlice";
 
-const AddTaskModal = ({ isOpen, setIsOpen }) => {
-  console.log("object");
+import { useDispatch } from "react-redux";
+import Modal from "../../ui/Modal";
+import { updateStatus } from "../../redux/features/tasks/tasksSlice";
+
+const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
+  console.log(task.status);
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {
-    dispatch(addTask(data));
+    console.log(data);
+    // dispatch(updateStatus({data,id:task.id,status:task.status}));
     onCancel();
   };
   const onCancel = () => {
@@ -20,7 +22,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
   const inputClass =
     "bg-gray-50 border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500";
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={`Add a Task`}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={`Update a Task`}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-5">
           <label htmlFor="text" className={levelClass}>
@@ -30,6 +32,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             type="text"
             id="text"
             className={inputClass}
+            defaultValue={task.title && task.title}
             placeholder=""
             {...register("title")}
           />
@@ -40,6 +43,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             name=""
             id="description"
             className={inputClass}
+            defaultValue={task.description && task.description}
             cols="52"
             rows="3"
             {...register("description")}
@@ -51,6 +55,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             type="date"
             id="deadline"
             className={inputClass}
+            defaultValue={task.deadline && task.deadline}
             placeholder=""
             {...register("deadline")}
           />
@@ -61,6 +66,7 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             {...register("assignTo")}
             id="assignTo"
             className={inputClass}
+            defaultValue={task.assignTo && task.assignTo}
           >
             <option value="">Select any option</option>
             <option value="tanmoy">Tanmoy Sarkar</option>
@@ -74,6 +80,8 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
             {...register("priority")}
             id="priority"
             className={inputClass}
+            defaultValue={task.priority && task.priority}
+
           >
             <option value="">Select a option</option>
             <option value="high">High</option>
@@ -82,11 +90,11 @@ const AddTaskModal = ({ isOpen, setIsOpen }) => {
           </select>
         </div>
         <div className="flex gap-3 justify-center">
-          <input type="submit" className="btn btn-primary" />
+          <input type="submit" className="btn btn-primary" value="Update" />
           <input type="reset" className="btn btn-primary" onClick={onCancel} />
         </div>
       </form>
     </Modal>
   );
 };
-export default AddTaskModal;
+export default UpdateTaskModal;

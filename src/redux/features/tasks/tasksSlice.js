@@ -4,18 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
   tasks: [],
 }; */
 const initialState = {
-  tasks: [
-    /* {
-      id: 1,
-      status: "pending",
-      title: "Remove Button",
-      description:
-        "We need a remove button in our task card. Meke the button red and use Heroicon for tashbin icon.",
-      deadline: "2023-08-28",
-      assignTo: "Mir Hussain",
-      priority: "high",
-    } */
-  ],
+  tasks: [],
 };
 // let uuid = crypto.randomUUID();
 
@@ -37,23 +26,22 @@ export const tasksSlice = createSlice({
         });
       }
     },
+   /*  updateTask: (state, { payload }) => {
+      const target = state.tasks.find((item) => item.id === payload.id);
+      // state.tasks = [...state.tasks,{id:payload.id,status:payload.status,...target}]
+    }, */
     removeTask: (state, { payload }) => {
       state.tasks = state.tasks.filter((item) => item.id !== payload);
     },
     updateStatus: (state, { payload }) => {
       const target = state.tasks.find((item) => item.id === payload.id);
-      if(payload.status ==="pending"){
-      target.status= "running"}
-      else if(payload.status ==="running"){
-        target.status= "completed"
-      }else{
-        target.status= "archive"
-      }
+      target.status = payload.status;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { addTask, removeTask,updateStatus } = tasksSlice.actions;
+export const { addTask, updateTask, removeTask, updateStatus } =
+  tasksSlice.actions;
 
 export default tasksSlice.reducer;
