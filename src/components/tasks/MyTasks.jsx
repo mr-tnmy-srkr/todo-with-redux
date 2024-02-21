@@ -2,18 +2,26 @@ import {
   CheckIcon,
   DocumentMagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateStatus } from "../../redux/features/tasks/tasksSlice";
-import { useState } from "react";
-import UpdateTaskModal from "./UpdateTaskModal";
+import TaskDetailsModal from "./TaskDetailsModal";
 
 const MyTasks = () => {
   let [isOpen, setIsOpen] = useState(false);
+  const [taskId, setTaskId] = useState();
   const dispatch = useDispatch();
   const { tasks } = useSelector((state) => state.tasksSlice);
   // console.log(tasks);
+
+  const handleModalToggle = (id) => {
+    setTaskId(id);
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div>
+      <TaskDetailsModal isOpen={isOpen} setIsOpen={setIsOpen} taskId={taskId} />
       <h1 className="text-xl my-3">My Tasks</h1>
       <div className=" h-[750px] overflow-auto space-y-3">
         {tasks?.map((task) => (
@@ -26,11 +34,10 @@ const MyTasks = () => {
               <button
                 className="grid place-content-center"
                 title="DETAILS"
-                onClick={() => setIsOpen(!isOpen)}
+                onClick={() => handleModalToggle(task.id)}
               >
                 <DocumentMagnifyingGlassIcon className="w-5 h-5 text-primary" />
               </button>
-              <UpdateTaskModal isOpen={isOpen} setIsOpen={setIsOpen} task={task}/>
               <button
                 className="grid place-content-center"
                 title="COMPLETED"

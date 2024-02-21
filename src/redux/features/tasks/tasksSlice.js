@@ -1,8 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/* const initialState = {
-  tasks: [],
-}; */
 const initialState = {
   tasks: [],
 };
@@ -26,10 +23,7 @@ export const tasksSlice = createSlice({
         });
       }
     },
-   /*  updateTask: (state, { payload }) => {
-      const target = state.tasks.find((item) => item.id === payload.id);
-      // state.tasks = [...state.tasks,{id:payload.id,status:payload.status,...target}]
-    }, */
+   
     removeTask: (state, { payload }) => {
       state.tasks = state.tasks.filter((item) => item.id !== payload);
     },

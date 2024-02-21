@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { addTask } from "../../redux/features/tasks/tasksSlice";
 
 const AddTaskModal = ({ isOpen, setIsOpen }) => {
-  console.log("object");
   const dispatch = useDispatch();
   const { register, handleSubmit, reset } = useForm();
   const onSubmit = (data) => {

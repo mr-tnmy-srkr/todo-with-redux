@@ -1,20 +1,12 @@
-import { useForm } from "react-hook-form";
-
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Modal from "../../ui/Modal";
-import { updateStatus } from "../../redux/features/tasks/tasksSlice";
 
-const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
-  console.log(task.status);
-  const dispatch = useDispatch();
-  const { register, handleSubmit, reset } = useForm();
-  const onSubmit = (data) => {
-    console.log(data);
-    // dispatch(updateStatus({data,id:task.id,status:task.status}));
-    onCancel();
-  };
+const TaskDetailsModal = ({ isOpen, setIsOpen, taskId }) => {
+  const { tasks } = useSelector((state) => state.tasksSlice);
+  const task = tasks.find((item) => item.id === taskId);
+  console.log(taskId);
+
   const onCancel = () => {
-    reset();
     setIsOpen(false);
   };
 
@@ -22,8 +14,8 @@ const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
   const inputClass =
     "bg-gray-50 border border-gray-300  text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:placeholder-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500";
   return (
-    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={`Update a Task`}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <Modal isOpen={isOpen} setIsOpen={setIsOpen} title={`Tasks Details`}>
+      <form>
         <div className="mb-5">
           <label htmlFor="text" className={levelClass}>
             Title
@@ -32,9 +24,8 @@ const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
             type="text"
             id="text"
             className={inputClass}
-            defaultValue={task.title && task.title}
-            placeholder=""
-            {...register("title")}
+            defaultValue={task?.title}
+            disabled
           />
           <label htmlFor="description" className={levelClass}>
             Description
@@ -43,10 +34,10 @@ const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
             name=""
             id="description"
             className={inputClass}
-            defaultValue={task.description && task.description}
+            defaultValue={task?.description}
             cols="52"
             rows="3"
-            {...register("description")}
+            disabled
           ></textarea>
           <label htmlFor="deadline" className={levelClass}>
             Deadline
@@ -55,18 +46,17 @@ const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
             type="date"
             id="deadline"
             className={inputClass}
-            defaultValue={task.deadline && task.deadline}
-            placeholder=""
-            {...register("deadline")}
+            defaultValue={task?.deadline}
+            disabled
           />
           <label htmlFor="assignTo" className={levelClass}>
             Assign to
           </label>
           <select
-            {...register("assignTo")}
             id="assignTo"
             className={inputClass}
-            defaultValue={task.assignTo && task.assignTo}
+            defaultValue={task?.assignTo}
+            disabled
           >
             <option value="">Select any option</option>
             <option value="tanmoy">Tanmoy Sarkar</option>
@@ -77,11 +67,10 @@ const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
             Priority
           </label>
           <select
-            {...register("priority")}
             id="priority"
             className={inputClass}
-            defaultValue={task.priority && task.priority}
-
+            defaultValue={task?.priority}
+            disabled
           >
             <option value="">Select a option</option>
             <option value="high">High</option>
@@ -90,11 +79,15 @@ const UpdateTaskModal = ({ isOpen, setIsOpen, task }) => {
           </select>
         </div>
         <div className="flex gap-3 justify-center">
-          <input type="submit" className="btn btn-primary" value="Update" />
-          <input type="reset" className="btn btn-primary" onClick={onCancel} />
+          <input
+            type="reset"
+            className="btn btn-primary"
+            onClick={onCancel}
+            value={"Close"}
+          />
         </div>
       </form>
     </Modal>
   );
 };
-export default UpdateTaskModal;
+export default TaskDetailsModal;
